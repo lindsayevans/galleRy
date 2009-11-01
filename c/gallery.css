@@ -3,3 +3,38 @@ body {
     color: #fff;
     font: 62.5%/150% Helvetica,sans-serif;
 }
+
+h1, h2 {
+    font-weight: normal;
+}
+
+#thumbnails ul {
+    list-style-type: none;
+    margin: 1em 0;
+    padding: 0;
+    overflow: auto;
+}
+
+#thumbnails ul li {
+    display: block;
+    float: left;
+    clear: none;
+    min-width: 17em;
+    min-height: 17em;
+    margin: 1em 2em 1em 0;
+    padding: 0;
+}
+
+#thumbnails ul li a {
+    display: block;
+}
+
+#thumbnails ul li a img {
+    display: block;
+    margin: 0 auto;
+    border: 3px solid #333;
+}
+
+#thumbnails ul li a:hover img {
+    border: 3px solid #999;
+}
