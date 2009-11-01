@@ -25,3 +25,8 @@ There are a few configuraion options you may want to play around with in `Rakefi
 - `rake build_template` - just build the HTML file
 - `rake clean` - remove all files in `t` & `index.html`
 - `rake clobber` - same as `rake clean`, but removes all files in `i`, too
+
+## TODO
+
+ - Make the template purty
+ - Add jQuery Lightbox or something
