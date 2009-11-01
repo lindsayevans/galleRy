@@ -54,7 +54,6 @@ task :build_template do |t|
     fd = File.open(OUTPUT_FILE, 'w')
     fd.write(output)
     fd.close
-puts output
 
 end
 
