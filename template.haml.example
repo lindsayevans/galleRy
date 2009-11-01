@@ -20,6 +20,11 @@
               %a{:href => image[:image]}>
                 %img{:src => image[:thumbnail]}>
 
+      %footer
+        %p> 
+          Built with 
+          %a{:href => "http://github.com/lindsayevans/galleRy"}galleRy
+
     %script{:type => "text/javascript", :src => "http://jscdn.net/jquery.js"}
     %script{:type => "text/javascript", :src => "j/jquery.lightbox-0.5.pack.js"}
     %script{:type => "text/javascript"} $(function(){$('#thumbnails a').lightBox();});

@@ -28,4 +28,4 @@ There are a few configuraion options you may want to play around with in `Rakefi
 
 ## TODO
 
-- Nuthin right now
+- Put config stuff in a YAML file or something
