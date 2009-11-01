@@ -7,6 +7,8 @@ IMAGE_DIRECTORY = 'i'
 THUMBNAIL_DIRECTORY = 't'
 TEMPLATE_FILE = 'template.haml'
 OUTPUT_FILE = 'index.html'
+MAX_THUMBNAIL_WIDTH = 200
+MAX_THUMBNAIL_HEIGHT = 200
 
 def convert_images src_glob, target_directory, parent_task
     FileList[src_glob].each do |f|
@@ -15,7 +17,7 @@ def convert_images src_glob, target_directory, parent_task
 	    puts 'convert '+f + ' > ' + target
 
 	    img = Magick::Image::read(f).first
-	    thumb = img.resize_to_fit(75, 75)	    
+	    thumb = img.resize_to_fit(MAX_THUMBNAIL_WIDTH, MAX_THUMBNAIL_HEIGHT)	    
 	    thumb.write target
 
 	end
