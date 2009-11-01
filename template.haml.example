@@ -4,7 +4,7 @@
   %head
     %title My awesome gallery
 
-    %style{:type => "text/css", :media => "screen,projection"}
+    %style{:type => "text/css", :media => "screen,projection"} @import "c/gallery.css";
 
   %body
 
