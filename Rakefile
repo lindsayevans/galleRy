@@ -3,10 +3,6 @@ require 'rake/clean'
 require 'RMagick'
 require 'haml'
 
-# FIXME: getting a 'uninitialized constant Haml::Template' exception here
-#Haml::Template.options[:format] = :html5
-#Haml::Template.options[:attr_wrapper] = '"'
-
 task :default => [:convert_images, :build_template]
 
 IMAGE_DIRECTORY = 'i'
@@ -49,7 +45,7 @@ task :build_template do |t|
     end
 
     template = File.read(TEMPLATE_FILE)
-    engine = Haml::Engine.new(template)
+    engine = Haml::Engine.new(template, {:format => :html5, :attr_wrapper => '"'})
     output = engine.render(Object.new, :config => config, :images => images)
     fd = File.open(OUTPUT_FILE, 'w')
     fd.write(output)
