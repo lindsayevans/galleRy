@@ -29,3 +29,5 @@ There are a few configuraion options you may want to play around with in `Rakefi
 ## TODO
 
 - Put config stuff in a YAML file or something
+- Pagination
+- Make large image lightboxes linkable
