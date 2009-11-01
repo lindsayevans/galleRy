@@ -1,4 +1,5 @@
 
+require 'rake/clean'
 require 'RMagick'
 
 task :default => [:convert_images, :build]
@@ -9,6 +10,9 @@ TEMPLATE_FILE = 'template.haml'
 OUTPUT_FILE = 'index.html'
 MAX_THUMBNAIL_WIDTH = 200
 MAX_THUMBNAIL_HEIGHT = 200
+
+CLEAN.include("#{THUMBNAIL_DIRECTORY}/*.*")
+CLOBBER.include("#{IMAGE_DIRECTORY}/*.*")
 
 def convert_images src_glob, target_directory, parent_task
     FileList[src_glob].each do |f|
@@ -25,9 +29,10 @@ def convert_images src_glob, target_directory, parent_task
     end
 end
 
+convert_images File.join(IMAGE_DIRECTORY, '*'), THUMBNAIL_DIRECTORY, :convert_images
+
 task :build => OUTPUT_FILE
 file OUTPUT_FILE => TEMPLATE_FILE do |t|
     puts "haml #{t.prerequisites[0]} > #{t.name}"
 end
 
-convert_images File.join(IMAGE_DIRECTORY, '*'), THUMBNAIL_DIRECTORY, :convert_images
