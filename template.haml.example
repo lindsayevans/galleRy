@@ -1,0 +1,23 @@
+!!!
+
+%html{:lang => "en"}
+  %head
+    %title My awesome gallery
+
+    %style{:type => "text/css", :media => "screen,projection"}
+
+  %body
+
+    #page-wrapper
+      %header
+        %h1> My awesome gallery
+        %h2> It totally rocks!
+
+      %article#thumbnails
+        %ul
+          - images.each do |image|
+            %li>
+              %a{:href => image[:image]}>
+                %img{:src => image[:thumbnail]}>
+
+

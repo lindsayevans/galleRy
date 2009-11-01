@@ -1,17 +1,22 @@
 
 require 'rake/clean'
 require 'RMagick'
+require 'haml'
 
-task :default => [:convert_images, :build]
+# FIXME: getting a 'uninitialized constant Haml::Template' exception here
+#Haml::Template.options[:format] = :html5
+#Haml::Template.options[:attr_wrapper] = '"'
+
+task :default => [:convert_images, :build_template]
 
 IMAGE_DIRECTORY = 'i'
 THUMBNAIL_DIRECTORY = 't'
 TEMPLATE_FILE = 'template.haml'
 OUTPUT_FILE = 'index.html'
-MAX_THUMBNAIL_WIDTH = 200
-MAX_THUMBNAIL_HEIGHT = 200
+MAX_THUMBNAIL_WIDTH = 150
+MAX_THUMBNAIL_HEIGHT = 150
 
-CLEAN.include("#{THUMBNAIL_DIRECTORY}/*.*")
+CLEAN.include("#{THUMBNAIL_DIRECTORY}/*.*", OUTPUT_FILE)
 CLOBBER.include("#{IMAGE_DIRECTORY}/*.*")
 
 def convert_images src_glob, target_directory, parent_task
@@ -31,8 +36,25 @@ end
 
 convert_images File.join(IMAGE_DIRECTORY, '*'), THUMBNAIL_DIRECTORY, :convert_images
 
-task :build => OUTPUT_FILE
-file OUTPUT_FILE => TEMPLATE_FILE do |t|
-    puts "haml #{t.prerequisites[0]} > #{t.name}"
+task :build_template do |t|
+    puts "haml #{TEMPLATE_FILE} > #{OUTPUT_FILE}"
+
+    config = {:max_thumbnail_width => MAX_THUMBNAIL_WIDTH, :max_thumbnail_height => MAX_THUMBNAIL_HEIGHT}
+
+    images = []
+
+    FileList[File.join(THUMBNAIL_DIRECTORY, '*')].each do |thumbnail|
+	full_image = File.join IMAGE_DIRECTORY, File.basename(thumbnail)
+	images << {:thumbnail => thumbnail, :image => full_image}
+    end
+
+    template = File.read(TEMPLATE_FILE)
+    engine = Haml::Engine.new(template)
+    output = engine.render(Object.new, :config => config, :images => images)
+    fd = File.open(OUTPUT_FILE, 'w')
+    fd.write(output)
+    fd.close
+puts output
+
 end
 
