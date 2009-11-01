@@ -28,5 +28,4 @@ There are a few configuraion options you may want to play around with in `Rakefi
 
 ## TODO
 
- - Make the template purty
- - Add jQuery Lightbox or something
+- Nuthin right now
