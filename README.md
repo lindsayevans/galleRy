@@ -23,5 +23,5 @@ There are a few configuraion options you may want to play around with in `Rakefi
 
 - `rake convert_images` - just convert images in `i` to thumbnails
 - `rake build_template` - just build the HTML file
-- `rake clean` - remove all files in `i` & `index.html`
+- `rake clean` - remove all files in `t` & `index.html`
 - `rake clobber` - same as `rake clean`, but removes all files in `i`, too
