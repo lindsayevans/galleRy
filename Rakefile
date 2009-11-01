@@ -1,5 +1,5 @@
 
-require 'yaml'
+require 'RMagick'
 
 task :default => [:convert_images, :build]
 
@@ -13,6 +13,11 @@ def convert_images src_glob, target_directory, parent_task
 	target = File.join target_directory, File.basename(f)
 	file target => [f] do |t|
 	    puts 'convert '+f + ' > ' + target
+
+	    img = Magick::Image::read(f).first
+	    thumb = img.resize_to_fit(75, 75)	    
+	    thumb.write target
+
 	end
 	task parent_task => target
     end
