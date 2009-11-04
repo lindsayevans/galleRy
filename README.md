@@ -18,7 +18,7 @@ If you add new images to `i`, just run `rake` again & it will add them.
 
 ## Configuration
 
-There are a few configuraion options you may want to play around with in `config.yaml`; including image & thumbnail directories, template & output filenames, and maximum thumbnail width & height. Should be pretty self explanatory.
+There are a few configuration options you may want to play around with in `config.yaml`; including image & thumbnail directories, template & output filenames, and maximum thumbnail width & height. Should be pretty self explanatory.
 
 ## Other tasks
 
