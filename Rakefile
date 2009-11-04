@@ -2,18 +2,14 @@
 require 'rake/clean'
 require 'RMagick'
 require 'haml'
+require 'yaml'
 
 task :default => [:convert_images, :build_template]
 
-IMAGE_DIRECTORY = 'i'
-THUMBNAIL_DIRECTORY = 't'
-TEMPLATE_FILE = 'template.haml'
-OUTPUT_FILE = 'index.html'
-MAX_THUMBNAIL_WIDTH = 150
-MAX_THUMBNAIL_HEIGHT = 150
+@config = YAML.load_file('config.yaml')
 
-CLEAN.include("#{THUMBNAIL_DIRECTORY}/*.*", OUTPUT_FILE)
-CLOBBER.include("#{IMAGE_DIRECTORY}/*.*")
+CLEAN.include("#{@config[:thumbnail_directory]}/*.*", @config[:output_file])
+CLOBBER.include("#{@config[:image_directory]}/*.*")
 
 def convert_images src_glob, target_directory, parent_task
     FileList[src_glob].each do |f|
@@ -22,7 +18,7 @@ def convert_images src_glob, target_directory, parent_task
 	    puts 'convert '+f + ' > ' + target
 
 	    img = Magick::Image::read(f).first
-	    thumb = img.resize_to_fit(MAX_THUMBNAIL_WIDTH, MAX_THUMBNAIL_HEIGHT)	    
+	    thumb = img.resize_to_fit(@config[:max_thumbnail_width], @config[:max_thumbnail_height])	    
 	    thumb.write target
 
 	end
@@ -30,24 +26,22 @@ def convert_images src_glob, target_directory, parent_task
     end
 end
 
-convert_images File.join(IMAGE_DIRECTORY, '*'), THUMBNAIL_DIRECTORY, :convert_images
+convert_images File.join(@config[:image_directory], '*'), @config[:thumbnail_directory], :convert_images
 
 task :build_template do |t|
-    puts "haml #{TEMPLATE_FILE} > #{OUTPUT_FILE}"
-
-    config = {:max_thumbnail_width => MAX_THUMBNAIL_WIDTH, :max_thumbnail_height => MAX_THUMBNAIL_HEIGHT}
+    puts "haml #{@config[:template_file]} > #{@config[:output_file]}"
 
     images = []
 
-    FileList[File.join(THUMBNAIL_DIRECTORY, '*')].each do |thumbnail|
-	full_image = File.join IMAGE_DIRECTORY, File.basename(thumbnail)
+    FileList[File.join(@config[:thumbnail_directory], '*')].each do |thumbnail|
+	full_image = File.join @config[:image_directory], File.basename(thumbnail)
 	images << {:thumbnail => thumbnail, :image => full_image}
     end
 
-    template = File.read(TEMPLATE_FILE)
+    template = File.read(@config[:template_file])
     engine = Haml::Engine.new(template, {:format => :html5, :attr_wrapper => '"'})
-    output = engine.render(Object.new, :config => config, :images => images)
-    fd = File.open(OUTPUT_FILE, 'w')
+    output = engine.render(Object.new, :@config => @config, :images => images)
+    fd = File.open(@config[:output_file], 'w')
     fd.write(output)
     fd.close
 

@@ -1,0 +1,8 @@
+---
+:image_directory: i
+:thumbnail_directory: t
+:template_file: template.haml
+:output_file: index.html
+:max_thumbnail_width: 150
+:max_thumbnail_height: 150
+
