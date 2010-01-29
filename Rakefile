@@ -33,7 +33,9 @@ task :build_template do |t|
 
     images = []
 
-    FileList[File.join(@config[:thumbnail_directory], '*')].each do |thumbnail|
+    FileList[File.join(@config[:thumbnail_directory], '*')].sort {|a,b|
+	File.stat(b).mtime <=> File.stat(a).mtime
+    }.each do |thumbnail|
 	full_image = File.join @config[:image_directory], File.basename(thumbnail)
 	images << {:thumbnail => thumbnail, :image => full_image}
     end
